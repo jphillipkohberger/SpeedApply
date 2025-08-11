@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SpeedApply")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2d7e5585b56fa48dae0a4c6f67011d7250efad65")]
 [assembly: System.Reflection.AssemblyProductAttribute("SpeedApply")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SpeedApply")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
