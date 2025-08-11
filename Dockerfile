@@ -33,13 +33,13 @@ RUN dotnet publish "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 #RUN dotnet publish "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
 # This stage is used as the base for the final stage when launching from VS to support debugging in regular mode (Default when not using the Debug configuration)
-#FROM base AS aotdebug
-#USER root
+FROM base AS aotdebug
+USER root
 # Install GDB to support native debugging
-#RUN apt-get update \
-#    && apt-get install -y --no-install-recommends \
-#    gdb
-#USER app
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    gdb
+USER app
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 #FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:8.0} AS final
@@ -48,9 +48,10 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
 WORKDIR /app
 EXPOSE 8080
 COPY --from=publish /app/publish .
-#ENTRYPOINT ["./SpeedApply"]
-COPY ["SpeedApply.csproj", "/app"]
 ENV PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/dotnet"
-ENTRYPOINT ["/bin/sh", "-c", "/usr/bin/dotnet watch run ./SpeedApply"]
+ENTRYPOINT ["./SpeedApply"]
+#COPY ["SpeedApply.csproj", "/app"]
+#ENV PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/dotnet"
+#ENTRYPOINT ["/bin/sh", "-c", "/usr/bin/dotnet watch run ./SpeedApply"]
 #ENTRYPOINT ["/bin/sh", "-c", "/usr/bin/dotnet watch run SpeedApply.dll"]
 #ENTRYPOINT dotnot watch run SpeedApply.dll
