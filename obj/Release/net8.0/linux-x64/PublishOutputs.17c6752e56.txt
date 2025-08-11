@@ -1,0 +1,7 @@
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\SpeedApply
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\appsettings.Development.json
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\appsettings.json
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\SpeedApply.dll
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\SpeedApply.deps.json
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\SpeedApply.runtimeconfig.json
+C:\Users\phill\source\repos\SpeedApply\obj\Release\net8.0\linux-x64\PubTmp\Out\SpeedApply.pdb

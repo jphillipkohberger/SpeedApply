@@ -1,0 +1,11 @@
+@SpeedApply_HostAddress = http://localhost:5269
+
+GET {{SpeedApply_HostAddress}}/todos/
+Accept: application/json
+
+###
+
+GET {{SpeedApply_HostAddress}}/todos/1
+Accept: application/json
+
+###
