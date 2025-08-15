@@ -24,6 +24,7 @@ namespace SpeedApply
             var app = builder.Build();
 
             var sampleTodos = new Todo[] {
+                new(0, "Do the hippopatomus", DateOnly.FromDateTime(DateTime.Now)),
                 new(0, "Do the doggie", DateOnly.FromDateTime(DateTime.Now)),
                 new(1, "Do the poodle", DateOnly.FromDateTime(DateTime.Now)),
                 new(2, "Do the billy goat", DateOnly.FromDateTime(DateTime.Now)),
@@ -31,7 +32,8 @@ namespace SpeedApply
                 new(4, "Do the laundry", DateOnly.FromDateTime(DateTime.Now.AddDays(1))),
                 new(5, "Clean the bathroom"),
                 new(6, "Do my little pony", DateOnly.FromDateTime(DateTime.Now)),
-                new(7, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
+                new(7, "Do my huge zebra", DateOnly.FromDateTime(DateTime.Now)),
+                new(8, "Clean the car", DateOnly.FromDateTime(DateTime.Now.AddDays(2)))
             };
 
             var todosApi = app.MapGroup("/todos");
