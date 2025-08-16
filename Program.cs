@@ -24,7 +24,7 @@ namespace SpeedApply
             var app = builder.Build();
 
             var sampleTodos = new Todo[] {
-                new(0, "Do the whole zoo even the janitor", DateOnly.FromDateTime(DateTime.Now)),
+                new(0, "Do the whole zoo even the glory hole", DateOnly.FromDateTime(DateTime.Now)),
                 new(0, "Do the doggie", DateOnly.FromDateTime(DateTime.Now)),
                 new(1, "Do the poodle", DateOnly.FromDateTime(DateTime.Now)),
                 new(2, "Do the billy goat", DateOnly.FromDateTime(DateTime.Now)),

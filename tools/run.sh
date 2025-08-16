@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/app/build/SpeedApply
+/app/publish/SpeedApply
