@@ -21,11 +21,12 @@ namespace SpeedApply
                 options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
             });
 
+            builder.Services.AddControllers();
+
             var app = builder.Build();
 
             var sampleTodos = new Todo[] {
-                new(0, "Do the whole zoo even the glory hole", DateOnly.FromDateTime(DateTime.Now)),
-                new(0, "Do the doggie", DateOnly.FromDateTime(DateTime.Now)),
+                new(0, "Do the snake", DateOnly.FromDateTime(DateTime.Now)),
                 new(1, "Do the poodle", DateOnly.FromDateTime(DateTime.Now)),
                 new(2, "Do the billy goat", DateOnly.FromDateTime(DateTime.Now)),
                 new(3, "Do the dishes", DateOnly.FromDateTime(DateTime.Now)),
@@ -44,6 +45,8 @@ namespace SpeedApply
                 sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
                     ? Results.Ok(todo)
                     : Results.NotFound());
+
+            app.MapControllers();
             app.Run();
         }
     }
