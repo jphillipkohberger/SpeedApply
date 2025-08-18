@@ -47,11 +47,14 @@ namespace SpeedApply
                     ? Results.Ok(todo)
                     : Results.NotFound());
 
+            Random random = new Random();
+            int randomNumber = random.Next(); // Generates a non-negative random integer
+            string randomNumberString = randomNumber.ToString();
 
             using (var context = new AppDbContext())
             {
                 // Example: Add a new user
-                var newUser = new Users { UserName = "testuser", Email = "test@example.com", Password = "password" };
+                var newUser = new Users { UserName = "testuser0" + randomNumberString, Email = randomNumberString + "test@example.co", Password = "password0" };
                 context.Users.Add(newUser);
                 context.SaveChanges();
                 Console.WriteLine("User added successfully!");
