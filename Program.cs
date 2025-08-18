@@ -1,3 +1,4 @@
+using SpeedApply.Api.Models;
 using System.Text.Json.Serialization;
  
 //project namespace
@@ -45,6 +46,23 @@ namespace SpeedApply
                 sampleTodos.FirstOrDefault(a => a.Id == id) is { } todo
                     ? Results.Ok(todo)
                     : Results.NotFound());
+
+
+            using (var context = new AppDbContext())
+            {
+                // Example: Add a new user
+                var newUser = new Users { UserName = "testuser", Email = "test@example.com", Password = "password" };
+                context.Users.Add(newUser);
+                context.SaveChanges();
+                Console.WriteLine("User added successfully!");
+
+                // Example: Query users
+                var users = context.Users.ToList();
+                foreach (var user in users)
+                {
+                    Console.WriteLine($"User ID: {user.Id}, Username: {user.UserName}, Email: {user.Email}");
+                }
+            }
 
             app.MapControllers();
             app.Run();
