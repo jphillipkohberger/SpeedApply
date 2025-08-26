@@ -1,11 +1,8 @@
-@SpeedApply_HostAddress = http://localhost:5269
-
-GET {{SpeedApply_HostAddress}}/todos/
-Accept: application/json
+@SpeedApply_HostAddress = http://localhost:32768
 
 ###
 
-GET {{SpeedApply_HostAddress}}/todos/1
+GET {{SpeedApply_HostAddress}}/Api/Users/5
 Accept: application/json
 
 ###

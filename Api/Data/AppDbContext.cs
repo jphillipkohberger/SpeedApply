@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using SpeedApply.Api.Models;
 
-namespace SpeedApply.Api.Models
+namespace SpeedApply.Api.Data
 {
     public class AppDbContext : DbContext
     {
