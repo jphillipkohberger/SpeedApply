@@ -1,4 +1,8 @@
+using SpeedApply.Api.Interfaces;
 using SpeedApply.Api.Models;
+using SpeedApply.Api.Repositories;
+using SpeedApply.Api.Services;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json.Serialization;
  
 //project namespace
@@ -22,9 +26,25 @@ namespace SpeedApply
                 options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
             });
 
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            // Register DbContext with PostgreSQL
+            builder.Services.AddDbContext<AppDbContext>(options =>
+                options.UseNpgsql(connectionString));
+
+            // Dependency Injection for Repository & Service
+            builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+            builder.Services.AddScoped<IUsersService, UsersService>();
+
             builder.Services.AddControllers();
 
             var app = builder.Build();
+
+
+
+            /**
+             * Testing connection code BEGINNING
+             */
 
             var sampleTodos = new Todo[] {
                 new(0, "Do the snake", DateOnly.FromDateTime(DateTime.Now)),
@@ -66,6 +86,10 @@ namespace SpeedApply
                     Console.WriteLine($"User ID: {user.Id}, Username: {user.UserName}, Email: {user.Email}");
                 }
             }
+
+            /**
+             * Testing connection code ENDING
+             */
 
             app.MapControllers();
             app.Run();

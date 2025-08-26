@@ -1,6 +1,10 @@
-﻿namespace SpeedApply.Api.Interfaces
+﻿
+using SpeedApply.Api.Dtos;
+
+namespace SpeedApply.Api.Interfaces
 {
-    public class IUsersService
+    public interface IUsersService
     {
+        Task<UsersDto> GetUserByIdAsync(int id);
     }
 }
