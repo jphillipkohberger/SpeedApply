@@ -1,5 +1,7 @@
 ﻿using SpeedApply.Api.Dtos;
+using SpeedApply.Api.Models;
 using SpeedApply.Api.Interfaces;
+using System.Collections.Generic;
 
 namespace SpeedApply.Api.Services
 {
@@ -16,8 +18,22 @@ namespace SpeedApply.Api.Services
         {
             var user = await _repository.GetByIdAsync(id);
             if (user == null) return null;
-
+            
             return new UsersDto { Id = user.Id, UserName = user.UserName };
+        }
+
+        public async Task<List<UsersDto>> GetUsersAsync()
+        {
+            List<Users> users = await _repository.GetUsersAsync();
+
+            List<UsersDto> usersDto = users.Select(u => new UsersDto
+                {
+                    Id = u.Id,
+                    UserName = u.UserName
+                }
+            ).ToList();
+
+            return usersDto;
         }
     }
 }

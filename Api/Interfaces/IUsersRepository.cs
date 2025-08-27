@@ -6,5 +6,7 @@ namespace SpeedApply.Api.Interfaces
     public interface IUsersRepository
     {
         Task<Users> GetByIdAsync(int id);
+
+        Task<List<Users>> GetUsersAsync();
     }
 }

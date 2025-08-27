@@ -2,6 +2,7 @@
 using SpeedApply.Api.Models;
 using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace SpeedApply.Api.Repositories
 {
@@ -17,6 +18,11 @@ namespace SpeedApply.Api.Repositories
         public async Task<Users> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
+        }
+
+        public async Task<List<Users>> GetUsersAsync()    
+        {
+            return await _context.Users.ToListAsync();
         }
     }
 }

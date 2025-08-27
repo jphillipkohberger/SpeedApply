@@ -25,5 +25,14 @@ namespace SpeedApply.Api.Controllers
             if (user == null) return NotFound();
             return Ok(user);
         }
+
+        // GET api/<UsersController>
+        [HttpGet]
+        public async Task<ActionResult<List<UsersDto>>> GetUsers(int id)
+        {
+            var users = await _userService.GetUsersAsync();
+            if (users == null) return NotFound();
+            return Ok(users);
+        }
     }
 }

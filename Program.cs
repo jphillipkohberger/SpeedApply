@@ -21,8 +21,6 @@ namespace SpeedApply
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
             builder.Services.AddScoped<IUsersService, UsersService>();
 
-            Console.WriteLine("API TESTING 1");
-
             builder.Services.AddControllers();
 
             var app = builder.Build();
