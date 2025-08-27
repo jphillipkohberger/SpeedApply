@@ -8,5 +8,7 @@ namespace SpeedApply.Api.Interfaces
         Task<Users> GetByIdAsync(int id);
 
         Task<List<Users>> GetUsersAsync();
+
+        Task<Users> CreateUserAsync(Users user);
     }
 }

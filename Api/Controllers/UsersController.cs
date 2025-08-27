@@ -34,5 +34,15 @@ namespace SpeedApply.Api.Controllers
             if (users == null) return NotFound();
             return Ok(users);
         }
+
+        // GET api/<UsersController>/create/5
+
+        [HttpGet("create/{id}")]
+        public async Task<ActionResult<UsersDto>> CreateUser(int id)
+        {
+            var user = await _userService.CreateUserAsync();
+            if (user == null) return NotFound();
+            return Ok(user);
+        }
     }
 }
