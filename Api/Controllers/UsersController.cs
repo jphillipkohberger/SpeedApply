@@ -2,11 +2,9 @@
 using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace SpeedApply.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -36,8 +34,7 @@ namespace SpeedApply.Api.Controllers
         }
 
         // GET api/<UsersController>/create/5
-
-        [HttpGet("create/{id}")]
+        [HttpGet("Create/{id}")]
         public async Task<ActionResult<UsersDto>> CreateUser(int id)
         {
             var user = await _userService.CreateUserAsync();

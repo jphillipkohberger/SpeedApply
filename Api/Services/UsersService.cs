@@ -14,24 +14,29 @@ namespace SpeedApply.Api.Services
             _repository = repository;
         }
 
-        public async Task<UsersDto> GetUserByIdAsync(int id)
+        public async Task<UsersDto?> GetUserByIdAsync(int id)
         {
             var user = await _repository.GetByIdAsync(id);
             if (user == null) return null;
             
-            return new UsersDto { Id = user.Id, UserName = user.UserName };
+            return new UsersDto { 
+                Id = user.Id, 
+                UserName = user.UserName, 
+                Email = user.Email, 
+                Password = user.Password 
+            };
         }
 
         public async Task<List<UsersDto>> GetUsersAsync()
         {
             List<Users> users = await _repository.GetUsersAsync();
 
-            List<UsersDto> usersDto = users.Select(u => new UsersDto
-                {
-                    Id = u.Id,
-                    UserName = u.UserName
-                }
-            ).ToList();
+            List<UsersDto> usersDto = users.Select(u => new UsersDto {
+                Id = u.Id,
+                UserName = u.UserName,
+                Email = u.Email,
+                Password = u.Password
+            }).ToList();
 
             return usersDto;
         }
@@ -51,7 +56,12 @@ namespace SpeedApply.Api.Services
 
             user = await _repository.CreateUserAsync(user);
 
-            return new UsersDto { Id = user.Id, UserName = user.UserName, Email = user.Email };
+            return new UsersDto {
+                Id = user.Id,
+                UserName = user.UserName, 
+                Email = user.Email,
+                Password = user.Password
+            };
         }
     }
 }
