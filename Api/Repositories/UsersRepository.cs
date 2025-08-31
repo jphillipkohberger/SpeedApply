@@ -15,7 +15,7 @@ namespace SpeedApply.Api.Repositories
             _context = context;
         }
 
-        public async Task<Users> GetByIdAsync(int id)
+        public async Task<Users?> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
