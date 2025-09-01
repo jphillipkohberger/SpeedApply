@@ -23,7 +23,8 @@ namespace SpeedApply.Api.Services
                 Id = user.Id, 
                 UserName = user.UserName, 
                 Email = user.Email, 
-                Password = user.Password 
+                Password = user.Password,
+                CreatedAt = user.CreatedAt
             };
         }
 
@@ -35,7 +36,8 @@ namespace SpeedApply.Api.Services
                 Id = u.Id,
                 UserName = u.UserName,
                 Email = u.Email,
-                Password = u.Password
+                Password = u.Password,
+                CreatedAt = u.CreatedAt
             }).ToList();
 
             return usersDto;
@@ -47,7 +49,8 @@ namespace SpeedApply.Api.Services
             Users user = new Users { 
                 UserName = usersDto.UserName,
                 Email = usersDto.Email,
-                Password = usersDto.Password
+                Password = usersDto.Password,
+                CreatedAt = DateTime.UtcNow
             };
 
             user = await _repository.CreateUserAsync(user);
@@ -56,7 +59,8 @@ namespace SpeedApply.Api.Services
                 Id = user.Id,
                 UserName = user.UserName, 
                 Email = user.Email,
-                Password = user.Password
+                Password = user.Password,
+                CreatedAt = user.CreatedAt
             };
         }
     }
