@@ -33,11 +33,16 @@ namespace SpeedApply.Api.Controllers
             return Ok(users);
         }
 
-        // GET api/<UsersController>/create/5
-        [HttpGet("Create/{id}")]
-        public async Task<ActionResult<UsersDto>> CreateUser(int id)
+        // POST api/<UsersController>/create
+        [HttpPost("Create")]
+        public async Task<ActionResult<UsersDto>> CreateUser([FromBody] UsersDto usersDto)
         {
-            var user = await _userService.CreateUserAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userService.CreateUserAsync(usersDto);
             if (user == null) return NotFound();
             return Ok(user);
         }

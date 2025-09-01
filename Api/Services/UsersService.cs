@@ -42,16 +42,12 @@ namespace SpeedApply.Api.Services
         }
 
         
-        public async Task<UsersDto> CreateUserAsync()
+        public async Task<UsersDto> CreateUserAsync(UsersDto usersDto)
         {
-            Random random = new Random();
-            int randomNumber = random.Next(); // Generates a non-negative random integer
-            string randomNumberString = randomNumber.ToString();
-
             Users user = new Users { 
-                UserName = "testuser0" + randomNumberString, 
-                Email = randomNumberString + "test@example.co", 
-                Password = "password0" 
+                UserName = usersDto.UserName,
+                Email = usersDto.Email,
+                Password = usersDto.Password
             };
 
             user = await _repository.CreateUserAsync(user);

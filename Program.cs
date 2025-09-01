@@ -14,6 +14,17 @@ namespace SpeedApply
 
             var builder = WebApplication.CreateSlimBuilder(args);
 
+            // Add CORS services and define a policy
+            var SpeedApplyCorsPolicy = "SpeedApplyCorsPolicy";
+            builder.Services.AddCors(options => {
+                options.AddPolicy(name: SpeedApplyCorsPolicy,
+                    policy => {
+                        policy.WithOrigins("http://localhost:8080") // Frontend React 
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                    });
+            });
+
             // Register DbContext with PostgreSQL
             builder.Services.AddDbContext<AppDbContext>();
 
@@ -24,6 +35,14 @@ namespace SpeedApply
             builder.Services.AddControllers();
 
             var app = builder.Build();
+
+            /**
+             * The call to UseCors must be placed after UseRouting,
+             * but before UseAuthorization. For more information,
+             * see Middleware order.
+             * https://learn.microsoft.com/en-us/aspnet/core/fundamentals/middleware/?view=aspnetcore-9.0#middleware-order
+             */
+            app.UseCors(SpeedApplyCorsPolicy);
 
             app.MapControllers();
             app.Run();
