@@ -19,7 +19,7 @@ namespace SpeedApply
             builder.Services.AddCors(options => {
                 options.AddPolicy(name: SpeedApplyCorsPolicy,
                     policy => {
-                        policy.WithOrigins("http://localhost:8080") // Frontend React 
+                        policy.SetIsOriginAllowed(origin => new Uri(origin).Host == "localhost") // Frontend React 
                             .AllowAnyHeader()
                             .AllowAnyMethod();
                     });
