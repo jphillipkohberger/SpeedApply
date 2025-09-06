@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using SpeedApply.Api.Data;
 using SpeedApply.Api.Interfaces;
+using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Repositories;
 using SpeedApply.Api.Services;
 
@@ -24,6 +26,9 @@ namespace SpeedApply
                             .AllowAnyMethod();
                     });
             });
+
+            // register password hashing
+            builder.Services.AddScoped<IPasswordHasher<UsersDto>, PasswordHasher<UsersDto>>();
 
             // Register DbContext with PostgreSQL
             builder.Services.AddDbContext<AppDbContext>();

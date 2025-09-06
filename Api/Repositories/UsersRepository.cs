@@ -19,6 +19,10 @@ namespace SpeedApply.Api.Repositories
         {
             return await _context.Users.FindAsync(id);
         }
+        public async Task<Users?> GetByEmailAsync(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
 
         public async Task<List<Users>> GetUsersAsync()    
         {
@@ -28,6 +32,15 @@ namespace SpeedApply.Api.Repositories
         public async Task<Users> CreateUserAsync(Users user)
         {
             await _context.Users.AddAsync(user);
+
+            await _context.SaveChangesAsync();
+
+            return user;
+        }
+
+        public async Task<Users> UpdateUserAsync(Users user)
+        {
+            _context.Update(user);
 
             await _context.SaveChangesAsync();
 

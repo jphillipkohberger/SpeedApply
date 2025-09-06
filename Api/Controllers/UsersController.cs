@@ -33,7 +33,7 @@ namespace SpeedApply.Api.Controllers
             return Ok(users);
         }
 
-        // POST api/<UsersController>/create
+        // POST api/<UsersController>/Create
         [HttpPost("Create")]
         public async Task<ActionResult<UsersDto>> CreateUser([FromBody] UsersDto usersDto)
         {
@@ -43,6 +43,20 @@ namespace SpeedApply.Api.Controllers
             }
 
             var user = await _userService.CreateUserAsync(usersDto);
+            if (user == null) return NotFound();
+            return Ok(user);
+        }
+
+        // POST api/<UsersController>/Login
+        [HttpPost("Login")]
+        public async Task<ActionResult<UsersDto>> Login([FromBody] UsersDto usersDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = await _userService.LoginUserAsync(usersDto);
             if (user == null) return NotFound();
             return Ok(user);
         }
