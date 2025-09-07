@@ -1,6 +1,5 @@
 ﻿using SpeedApply.Api.Interfaces;
 using SpeedApply.Api.Models;
-using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Data;
 using Microsoft.EntityFrameworkCore;
 
