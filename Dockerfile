@@ -48,8 +48,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
 WORKDIR /app
 RUN apt-get update && apt-get install wget nano inotify-tools procps -y
 EXPOSE 8080
-COPY --from=publish /app/publish .
-ENTRYPOINT ["sleep","infinity"]
+#COPY --from=publish /app/publish .
+#RUN rm -rf bin/ && rm -rf obj/ && rm -rf .vs/ && rm -rf publish/ && rm -rf build/
+COPY . /app/
+#COPY ["SpeedApply.csproj", "."]
+#RUN dotnet restore "./SpeedApply.csproj"
+#COPY . .
+#ENTRYPOINT ["sleep","infinity"]
+ENTRYPOINT ["/bin/sh", "-c", "/app/tools/build.sh && /app/tools/run.sh"]
 #ENTRYPOINT ["./SpeedApply"]
 #COPY ["SpeedApply.csproj", "/app"]
 #ENV PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/dotnet"
