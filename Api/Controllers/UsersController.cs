@@ -79,7 +79,8 @@ namespace SpeedApply.Api.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
+        // GET api/<UsersController>/Logout
+        [HttpGet("Logout")]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
