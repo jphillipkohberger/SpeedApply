@@ -12,6 +12,7 @@ namespace SpeedApply.Api.Data
 
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<Users> Users { get; set; }
+        public DbSet<RootUrls> RootUrls { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -22,8 +23,9 @@ namespace SpeedApply.Api.Data
         // Use OnModelCreating for Fluent API configuration if needed
          protected override void OnModelCreating(ModelBuilder modelBuilder)
          {
-             modelBuilder.Entity<Users>().ToTable("Users");
-         }
+            modelBuilder.Entity<Users>().ToTable("Users");
+            modelBuilder.Entity<RootUrls>().ToTable("RootUrls");
+        }
     }
 }
 

@@ -2,7 +2,7 @@
 
 ###
 
-GET {{SpeedApply_HostAddress}}/Api/Users/5
+GET {{SpeedApply_HostAddress}}/Api/RootUsers/1
 Accept: application/json
 
 ###

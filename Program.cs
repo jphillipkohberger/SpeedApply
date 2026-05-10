@@ -49,6 +49,9 @@ namespace SpeedApply
             builder.Services.AddScoped<IUsersRepository, UsersRepository>();
             builder.Services.AddScoped<IUsersService, UsersService>();
 
+            builder.Services.AddScoped<IRootUrlsRepository, RootUrlsRepository>();
+            builder.Services.AddScoped<IRootUrlsService, RootUrlsService>();
+
             builder.Services.AddControllers();
 
             var app = builder.Build();
