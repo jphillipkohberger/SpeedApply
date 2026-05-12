@@ -26,6 +26,7 @@ namespace SpeedApply.Api.Services
                 Id = user.Id, 
                 UserName = user.UserName, 
                 Email = user.Email, 
+                Address = user.Address,
                 Password = user.Password,
                 CreatedAt = user.CreatedAt
             };
@@ -40,6 +41,7 @@ namespace SpeedApply.Api.Services
                 UserName = u.UserName,
                 Email = u.Email,
                 Password = u.Password,
+                Address = u.Address,
                 CreatedAt = u.CreatedAt
             }).ToList();
 
@@ -53,6 +55,7 @@ namespace SpeedApply.Api.Services
                 UserName = usersDto.UserName,
                 Email = usersDto.Email,
                 Password = HashPassword(usersDto, usersDto.Password),
+                Address = usersDto.Address,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -63,6 +66,7 @@ namespace SpeedApply.Api.Services
                 UserName = user.UserName, 
                 Email = user.Email,
                 Password = user.Password,
+                Address = user.Address,
                 CreatedAt = user.CreatedAt
             };
         }
@@ -86,6 +90,7 @@ namespace SpeedApply.Api.Services
                 UserName = user.UserName,
                 Email = user.Email,
                 Password = user.Password,
+                Address = user.Address,
                 CreatedAt = user.CreatedAt
             };
 
@@ -110,6 +115,7 @@ namespace SpeedApply.Api.Services
                     UserName = user.UserName,
                     Email = user.Email,
                     Password = user.Password,
+                    Address = user.Address,
                     CreatedAt = user.CreatedAt
                 };
             }

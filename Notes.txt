@@ -1,0 +1,4 @@
+﻿5/12/2026
+ADDED Address field to user Model not required and nullable with default value of ''
+NEXT after creating forced direct if Address is null force to Profile Page on Frontend where user will be made to add address for drilling down search criteria
+NEXT need to address parse and combine from street state zip to single Address field stored in Users table
