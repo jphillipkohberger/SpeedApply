@@ -2,3 +2,7 @@
 ADDED Address field to user Model not required and nullable with default value of ''
 NEXT after creating forced direct if Address is null force to Profile Page on Frontend where user will be made to add address for drilling down search criteria
 NEXT need to address parse and combine from street state zip to single Address field stored in Users table
+
+5/13/2026
+ADDED Front end Added logic for Address and others to follow (Query, Min Salary) force fill out Profile if any missing
+NEXT Add other properties and fields(Query, Min Salary) to backend logic and database tables
