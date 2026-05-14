@@ -13,6 +13,7 @@ namespace SpeedApply.Api.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<Users> Users { get; set; }
         public DbSet<RootUrls> RootUrls { get; set; }
+        public DbSet<Queries> Queries { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,6 +26,7 @@ namespace SpeedApply.Api.Data
          {
             modelBuilder.Entity<Users>().ToTable("Users");
             modelBuilder.Entity<RootUrls>().ToTable("RootUrls");
+            modelBuilder.Entity<Queries>().ToTable("Queries");
         }
     }
 }
