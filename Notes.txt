@@ -6,3 +6,7 @@ NEXT need to address parse and combine from street state zip to single Address f
 5/13/2026
 ADDED Front end Added logic for Address and others to follow (Query, Min Salary) force fill out Profile if any missing
 NEXT Add other properties and fields(Query, Min Salary) to backend logic and database tables
+
+5/14/26
+ADDED backend postgres Queries table referencing back to Users table with foriegn key
+NEXT Make Entity framework recognize foreign key relation between queries and users -> possibly using OnModelCreating in AppDBContext
