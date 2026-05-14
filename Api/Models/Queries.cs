@@ -11,6 +11,8 @@ namespace SpeedApply.Api.Models
         public DateTime CreatedAt { get; set; }
         public int UserId { get; set; }
 
+        //[ForeignKey(nameof(UserId))]
+        //public virtual Users User { get; set; }
         //[ForeignKey("UserId")]
         //public virtual Users User { get; set; }
     }
