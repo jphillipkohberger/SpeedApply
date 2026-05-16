@@ -9,5 +9,6 @@ namespace SpeedApply.Api.Interfaces
         Task<UsersDto> CreateUserAsync(UsersDto usersDto);
         Task<UsersDto?> LoginUserAsync(UsersDto usersDto);
         Task<List<UsersDto>> GetUsersAsync();
+        Task<UsersDto?> GetUserByIdWithQueriesAsync(int id);
     }
 }

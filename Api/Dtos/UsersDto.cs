@@ -9,5 +9,6 @@
         public string? Address { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastLogin { get; set; }
+        public List<QueriesDto> Queries { get; set; } = new();
     }
 }

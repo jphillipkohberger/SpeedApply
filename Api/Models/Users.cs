@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SpeedApply.Api.Models
 {
@@ -13,5 +12,8 @@ namespace SpeedApply.Api.Models
         public string? Address { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastLogin { get; set; }
+
+        // Navigation property for 1-to-many
+        public ICollection<Queries> Queries { get; set; }
     }
 }

@@ -21,15 +21,24 @@ namespace SpeedApply.Api.Services
         {
             var user = await _repository.GetByIdAsync(id);
             if (user == null) return null;
-            
-            return new UsersDto { 
-                Id = user.Id, 
-                UserName = user.UserName, 
-                Email = user.Email, 
+
+            return new UsersDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Email = user.Email,
                 Address = user.Address,
                 Password = user.Password,
                 CreatedAt = user.CreatedAt
             };
+        }
+
+        public async Task<UsersDto?> GetUserByIdWithQueriesAsync(int id)
+        {
+            var user = await _repository.GetUserWithQueriesAsync(id);
+            if (user == null) return null;
+
+            return user;
         }
 
         public async Task<List<UsersDto>> GetUsersAsync()

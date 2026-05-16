@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SpeedApply.Api.Models;
 
 namespace SpeedApply.Api.Data
@@ -27,6 +26,11 @@ namespace SpeedApply.Api.Data
             modelBuilder.Entity<Users>().ToTable("Users");
             modelBuilder.Entity<RootUrls>().ToTable("RootUrls");
             modelBuilder.Entity<Queries>().ToTable("Queries");
+
+            modelBuilder.Entity<Queries>()
+                .HasOne(q => q.User)            // Each Query has one User
+                .WithMany(u => u.Queries)       // A User can have many Queries
+                .HasForeignKey(q => q.UserId);  // Tied together by the UserId property
         }
     }
 }

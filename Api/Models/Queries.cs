@@ -9,11 +9,11 @@ namespace SpeedApply.Api.Models
         public int Id { get; set; }
         public string Query { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        // 1. The Foreign Key Property
         public int UserId { get; set; }
 
-        //[ForeignKey(nameof(UserId))]
-        //public virtual Users User { get; set; }
-        //[ForeignKey("UserId")]
-        //public virtual Users User { get; set; }
+        // 2. The Navigation Property
+        public Users User { get; set; }
     }
 }
