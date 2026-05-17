@@ -1,7 +1,6 @@
 ﻿using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Models;
 using SpeedApply.Api.Interfaces;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace SpeedApply.Api.Services
@@ -38,7 +37,18 @@ namespace SpeedApply.Api.Services
             var user = await _repository.GetUserWithQueriesAsync(id);
             if (user == null) return null;
 
-            return user;
+            return new UsersDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Password = user.Password,
+                Email = user.Email,
+                Queries = user.Queries.Select(q => new QueriesDto
+                {
+                    Id = q.Id,
+                    Query = q.Query
+                }).ToList()
+            };
         }
 
         public async Task<List<UsersDto>> GetUsersAsync()

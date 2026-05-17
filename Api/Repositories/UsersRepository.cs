@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpeedApply.Api.Data;
-using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
 using SpeedApply.Api.Models;
 
@@ -20,18 +19,18 @@ namespace SpeedApply.Api.Repositories
             return await _context.Users.FindAsync(id);
         }
 
-        public async Task<UsersDto?> GetUserWithQueriesAsync(int userId)
+        public async Task<Users?> GetUserWithQueriesAsync(int userId)
         {
             return await _context.Users
                 .Include(u => u.Queries)
                 .Where(u => u.Id == userId)
-                .Select(u => new UsersDto
+                .Select(u => new Users
                 {
                     Id = u.Id,
                     UserName = u.UserName,
                     Password = u.Password,
                     Email = u.Email,
-                    Queries = u.Queries.Select(q => new QueriesDto
+                    Queries = u.Queries.Select(q => new Queries
                     {
                         Id = q.Id,
                         Query = q.Query
