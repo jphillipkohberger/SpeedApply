@@ -22,7 +22,6 @@ namespace SpeedApply.Api.Services
                 Query = query.Query, 
                 CreatedAt = query.CreatedAt,
                 UserId = query.UserId,
-                //User = query.User,
             };
         }
     }

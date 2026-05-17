@@ -33,7 +33,8 @@ namespace SpeedApply.Api.Repositories
                     Queries = u.Queries.Select(q => new Queries
                     {
                         Id = q.Id,
-                        Query = q.Query
+                        Query = q.Query,
+                        UserId = q.UserId,
                     }).ToList()
                 })
                 .FirstOrDefaultAsync();

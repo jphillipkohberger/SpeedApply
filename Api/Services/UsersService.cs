@@ -46,7 +46,9 @@ namespace SpeedApply.Api.Services
                 Queries = user.Queries.Select(q => new QueriesDto
                 {
                     Id = q.Id,
-                    Query = q.Query
+                    Query = q.Query,
+                    CreatedAt = q.CreatedAt,
+                    UserId = q.UserId,
                 }).ToList()
             };
         }

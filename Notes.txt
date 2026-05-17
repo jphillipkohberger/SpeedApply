@@ -10,3 +10,7 @@ NEXT Add other properties and fields(Query, Min Salary) to backend logic and dat
 5/14/26
 ADDED backend postgres Queries table referencing back to Users table with foriegn key
 NEXT Make Entity framework recognize foreign key relation between queries and users -> possibly using OnModelCreating in AppDBContext
+
+5/16/26
+ADDED Made Entity framework recognize Foreign Key from Queries back to Users table as they will only be one user tied to many Queries and can be many Queries tied to only one user
+NEXT Work on Profile Page, Add Address and minimum salary to profile start with address
