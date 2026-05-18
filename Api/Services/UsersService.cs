@@ -69,10 +69,11 @@ namespace SpeedApply.Api.Services
             return usersDto;
         }
 
-        
+
         public async Task<UsersDto> CreateUserAsync(UsersDto usersDto)
         {
-            Users user = new Users { 
+            Users user = new Users
+            {
                 UserName = usersDto.UserName,
                 Email = usersDto.Email,
                 Password = HashPassword(usersDto, usersDto.Password),
@@ -82,13 +83,36 @@ namespace SpeedApply.Api.Services
 
             user = await _repository.CreateUserAsync(user);
 
-            return new UsersDto {
+            return new UsersDto
+            {
                 Id = user.Id,
-                UserName = user.UserName, 
+                UserName = user.UserName,
                 Email = user.Email,
                 Password = user.Password,
                 Address = user.Address,
                 CreatedAt = user.CreatedAt
+            };
+        }
+
+        public async Task<UsersDto?> SaveUserProfileAsync(int id, string address)
+        {
+            var user = await _repository.GetByIdAsync(id);
+            if (user == null) return null;
+
+            user.Address = address;
+
+            // update database
+            var userSaved = await _repository.UpdateUserAsync(user);
+            if (userSaved == null) return null;
+
+            return new UsersDto
+            {
+                Id = userSaved.Id,
+                UserName = userSaved.UserName,
+                Email = userSaved.Email,
+                Password = userSaved.Password,
+                Address = userSaved.Address,
+                CreatedAt = userSaved.CreatedAt
             };
         }
 

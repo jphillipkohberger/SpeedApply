@@ -68,9 +68,12 @@ namespace SpeedApply.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            //var user = await _userService.CreateUserAsync(usersDto);
-            //if (user == null) return NotFound();
-            return Ok(addressDto);
+            string address = $"{addressDto.Street} {addressDto.City}, {addressDto.State} {addressDto.Zip}";
+
+            var user = await _userService.SaveUserProfileAsync(addressDto.UserId, address);
+            if (user == null) return NotFound();
+            
+            return Ok(user);
         }
 
         // POST api/<UsersController>/Login
