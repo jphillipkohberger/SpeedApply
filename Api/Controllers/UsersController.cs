@@ -59,6 +59,20 @@ namespace SpeedApply.Api.Controllers
             return Ok(user);
         }
 
+        // POST api/<UsersController>/SaveProfile
+        [HttpPost("SaveProfile")]
+        public async Task<ActionResult<UsersDto>> SaveProfile([FromBody] AddressDto addressDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //var user = await _userService.CreateUserAsync(usersDto);
+            //if (user == null) return NotFound();
+            return Ok(addressDto);
+        }
+
         // POST api/<UsersController>/Login
         [HttpPost("Login")]
         public async Task<ActionResult<UsersDto>> Login([FromBody] UsersDto usersDto)
