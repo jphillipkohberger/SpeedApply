@@ -14,3 +14,7 @@ NEXT Make Entity framework recognize foreign key relation between queries and us
 5/16/26
 ADDED Made Entity framework recognize Foreign Key from Queries back to Users table as they will only be one user tied to many Queries and can be many Queries tied to only one user
 NEXT Work on Profile Page, Add Address and minimum salary to profile start with address
+
+5/18/26
+ADDED Backend Controller Service and Repository for SaveProfile
+NEXT Add Backend Controller save resume from profile
