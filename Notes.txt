@@ -18,3 +18,7 @@ NEXT Work on Profile Page, Add Address and minimum salary to profile start with 
 5/18/26
 ADDED Backend Controller Service and Repository for SaveProfile
 NEXT Add Backend Controller save resume from profile
+
+5/28/26
+NEXT Add DB table for files foreign keyed back to Users for storing files, should be generic for storing different named files one to many. Users -> Files mainly for resumes but must be generic for storing other documents.
+After adding database tables, Entity models will be created and ultimately apii endpoint to save file(s)
