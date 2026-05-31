@@ -36,6 +36,15 @@ namespace SpeedApply.Api.Controllers
             return Ok(user);
         }
 
+        // GET api/<UsersController>/5
+        [HttpGet("GetUserWithFiles/{id}")]
+        public async Task<ActionResult<UsersDto>> GetUserWithFiles(int id)
+        {
+            var user = await _userService.GetUserByIdWithFilesAsync(id);
+            if (user == null) return NotFound();
+            return Ok(user);
+        }
+
         // GET api/<UsersController>
         [HttpGet]
         public async Task<ActionResult<List<UsersDto>>> GetUsers(int id)

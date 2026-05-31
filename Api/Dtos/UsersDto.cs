@@ -10,5 +10,6 @@
         public DateTime CreatedAt { get; set; }
         public DateTime LastLogin { get; set; }
         public List<QueriesDto> Queries { get; set; } = new();
+        public List<FilesDto> Files { get; set; } = new();
     }
 }

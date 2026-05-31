@@ -39,6 +39,27 @@ namespace SpeedApply.Api.Repositories
                 })
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<Users?> GetUserWithFilesAsync(int userId)
+        {
+            return await _context.Users
+                .Include(u => u.Files)
+                .Where(u => u.Id == userId)
+                .Select(u => new Users
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Password = u.Password,
+                    Email = u.Email,
+                    Files = u.Files.Select(f => new Files
+                    {
+                        Id = f.Id,
+                        Name = f.Name,
+                        UserId = f.UserId,
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
         public async Task<Users?> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);

@@ -53,6 +53,27 @@ namespace SpeedApply.Api.Services
             };
         }
 
+        public async Task<UsersDto?> GetUserByIdWithFilesAsync(int id)
+        {
+            var user = await _repository.GetUserWithFilesAsync(id);
+            if (user == null) return null;
+
+            return new UsersDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                Password = user.Password,
+                Email = user.Email,
+                Files = user.Files.Select(f => new FilesDto
+                {
+                    Id = f.Id,
+                    Name = f.Name,
+                    CreatedAt = f.CreatedAt,
+                    UserId = f.UserId,
+                }).ToList()
+            };
+        }
+
         public async Task<List<UsersDto>> GetUsersAsync()
         {
             List<Users> users = await _repository.GetUsersAsync();
