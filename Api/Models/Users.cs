@@ -15,5 +15,6 @@ namespace SpeedApply.Api.Models
 
         // Navigation property for 1-to-many
         public ICollection<Queries>? Queries { get; set; }
+        public ICollection<Files>? Files { get; set; }
     }
 }

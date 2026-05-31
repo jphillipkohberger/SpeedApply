@@ -13,6 +13,7 @@ namespace SpeedApply.Api.Data
         public DbSet<Users> Users { get; set; }
         public DbSet<RootUrls> RootUrls { get; set; }
         public DbSet<Queries> Queries { get; set; }
+        public DbSet<Files> Files { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -30,6 +31,13 @@ namespace SpeedApply.Api.Data
             modelBuilder.Entity<Queries>()
                 .HasOne(q => q.User)            // Each Query has one User
                 .WithMany(u => u.Queries)       // A User can have many Queries
+                .HasForeignKey(q => q.UserId);  // Tied together by the UserId property
+
+            modelBuilder.Entity<Files>().ToTable("Files");
+
+            modelBuilder.Entity<Files>()
+                .HasOne(q => q.User)            // Each File has one User
+                .WithMany(u => u.Files)       // A User can have many Files
                 .HasForeignKey(q => q.UserId);  // Tied together by the UserId property
         }
     }
