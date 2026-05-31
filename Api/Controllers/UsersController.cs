@@ -70,7 +70,7 @@ namespace SpeedApply.Api.Controllers
 
         // POST api/<UsersController>/SaveProfile
         [HttpPost("SaveProfile")]
-        public async Task<ActionResult<UsersDto>> SaveProfile([FromBody] AddressDto addressDto)
+        public async Task<ActionResult<UsersDto>> SaveProfile([FromForm] AddressDto addressDto)
         {
             if (!ModelState.IsValid)
             {

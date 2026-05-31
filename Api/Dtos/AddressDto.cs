@@ -1,5 +1,4 @@
-﻿using SpeedApply.Api.Models;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace SpeedApply.Api.Dtos
 {
@@ -10,5 +9,6 @@ namespace SpeedApply.Api.Dtos
         required public string City { get; set; }
         required public string State { get; set; }
         required public string Zip { get; set; }
+        //public IFormFile Resume { get; set; } // The file property
     }
 }
