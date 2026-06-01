@@ -17,5 +17,14 @@ namespace SpeedApply.Api.Repositories
         {
             return await _context.Files.FindAsync(id);
         }
+
+        public async Task<Files> CreateFileAsync(Files file)
+        {
+            await _context.Files.AddAsync(file);
+
+            await _context.SaveChangesAsync();
+
+            return file;
+        }
     }
 }

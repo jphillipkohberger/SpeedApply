@@ -1,5 +1,6 @@
 ﻿using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
+using SpeedApply.Api.Models;
 
 namespace SpeedApply.Api.Services
 {
@@ -23,6 +24,17 @@ namespace SpeedApply.Api.Services
                 CreatedAt = file.CreatedAt,
                 UserId = file.UserId,
             };
+        }
+
+        public async Task<FilesDto?> SaveUserFileAsync(int id, string name)
+        {
+            var file = new Files { UserId = id, Name = name};
+
+            // update database
+            var fileSaved = await _repository.CreateFileAsync(file);
+            if (fileSaved == null) return null;
+
+            return new FilesDto { Id = id, Name = name };
         }
     }
 }

@@ -12,10 +12,12 @@ namespace SpeedApply.Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUsersService _userService;
+        private readonly IFilesService _fileService;
 
-        public UsersController(IUsersService userService)
+        public UsersController(IUsersService userService, IFilesService fileService)
         {
             _userService = userService;
+            _fileService = fileService;
         }
 
         // GET api/<UsersController>/5
@@ -77,11 +79,30 @@ namespace SpeedApply.Api.Controllers
                 return BadRequest(ModelState);
             }
 
+            /**
+             * save address
+             */
             string address = $"{addressDto.Street} {addressDto.City}, {addressDto.State} {addressDto.Zip}";
-
             var user = await _userService.SaveUserProfileAsync(addressDto.UserId, address);
             if (user == null) return NotFound();
-            
+
+            /**
+             * save incoming file
+             */
+            string targetDirectory = Path.Combine(Directory.GetCurrentDirectory(), "Files");
+            string safeFileName = Path.GetRandomFileName() + ".pdf";
+            string filePath = Path.Combine(targetDirectory, safeFileName);
+            using (var fileStream = new FileStream(filePath, FileMode.Create))
+            {
+                await addressDto.Resume.CopyToAsync(fileStream);
+            }
+
+            /**
+             * save file metadata in db
+             */
+            var file = await _fileService.SaveUserFileAsync(addressDto.UserId, filePath);
+            if (file == null) return NotFound();
+
             return Ok(user);
         }
 
