@@ -13,6 +13,6 @@ namespace SpeedApply.Api.Interfaces
         Task<List<UsersDto>> GetUsersAsync();
         Task<UsersDto?> GetUserByIdWithQueriesAsync(int id);
         Task<UsersDto?> GetUserByIdWithFilesAsync(int id);
-        Task<UsersDto?> SaveUserProfileAsync(int id, string address);
+        Task<UsersDto?> SaveUserProfileAsync(int id, string address, string minSal);
     }
 }

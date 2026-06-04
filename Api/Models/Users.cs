@@ -10,6 +10,7 @@ namespace SpeedApply.Api.Models
         required public string Password { get; set; }
         required public string Email { get; set; }
         public string? Address { get; set; }
+        public string? MinSal { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastLogin { get; set; }
 

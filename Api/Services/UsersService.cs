@@ -27,6 +27,7 @@ namespace SpeedApply.Api.Services
                 UserName = user.UserName,
                 Email = user.Email,
                 Address = user.Address,
+                MinSal = user.MinSal,
                 Password = user.Password,
                 CreatedAt = user.CreatedAt
             };
@@ -43,6 +44,8 @@ namespace SpeedApply.Api.Services
                 UserName = user.UserName,
                 Password = user.Password,
                 Email = user.Email,
+                Address = user.Address,
+                MinSal = user.MinSal,
                 Queries = user.Queries.Select(q => new QueriesDto
                 {
                     Id = q.Id,
@@ -64,6 +67,8 @@ namespace SpeedApply.Api.Services
                 UserName = user.UserName,
                 Password = user.Password,
                 Email = user.Email,
+                Address = user.Address,
+                MinSal = user.MinSal,
                 Files = user.Files.Select(f => new FilesDto
                 {
                     Id = f.Id,
@@ -84,6 +89,7 @@ namespace SpeedApply.Api.Services
                 Email = u.Email,
                 Password = u.Password,
                 Address = u.Address,
+                MinSal = u.MinSal,
                 CreatedAt = u.CreatedAt
             }).ToList();
 
@@ -99,6 +105,7 @@ namespace SpeedApply.Api.Services
                 Email = usersDto.Email,
                 Password = HashPassword(usersDto, usersDto.Password),
                 Address = usersDto.Address,
+                MinSal = usersDto.MinSal,
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -111,16 +118,18 @@ namespace SpeedApply.Api.Services
                 Email = user.Email,
                 Password = user.Password,
                 Address = user.Address,
+                MinSal = user.MinSal,
                 CreatedAt = user.CreatedAt
             };
         }
 
-        public async Task<UsersDto?> SaveUserProfileAsync(int id, string address)
+        public async Task<UsersDto?> SaveUserProfileAsync(int id, string address, string minSal)
         {
             var user = await _repository.GetByIdAsync(id);
             if (user == null) return null;
 
             user.Address = address;
+            user.MinSal = minSal;
 
             // update database
             var userSaved = await _repository.UpdateUserAsync(user);
@@ -133,6 +142,7 @@ namespace SpeedApply.Api.Services
                 Email = userSaved.Email,
                 Password = userSaved.Password,
                 Address = userSaved.Address,
+                MinSal = userSaved.MinSal,
                 CreatedAt = userSaved.CreatedAt
             };
         }
@@ -157,6 +167,7 @@ namespace SpeedApply.Api.Services
                 Email = user.Email,
                 Password = user.Password,
                 Address = user.Address,
+                MinSal = user.MinSal,
                 CreatedAt = user.CreatedAt
             };
 
@@ -182,6 +193,7 @@ namespace SpeedApply.Api.Services
                     Email = user.Email,
                     Password = user.Password,
                     Address = user.Address,
+                    MinSal = user.MinSal,
                     CreatedAt = user.CreatedAt
                 };
             }

@@ -5,7 +5,8 @@
     "Email" character varying(255) NOT NULL,
     "CreatedAt" timestamp with time zone DEFAULT CURRENT_TIMESTAMP,
     "LastLogin" timestamp with time zone,
-    "Address" text DEFAULT ''::text
+    "Address" text DEFAULT ''::text,
+    "MinSal" VARCHAR(125)
 );
 
 CREATE TABLE "Queries" (

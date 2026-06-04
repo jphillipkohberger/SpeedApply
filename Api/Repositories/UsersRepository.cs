@@ -30,6 +30,8 @@ namespace SpeedApply.Api.Repositories
                     UserName = u.UserName,
                     Password = u.Password,
                     Email = u.Email,
+                    Address = u.Address,
+                    MinSal = u.MinSal,
                     Queries = u.Queries.Select(q => new Queries
                     {
                         Id = q.Id,
@@ -51,6 +53,8 @@ namespace SpeedApply.Api.Repositories
                     UserName = u.UserName,
                     Password = u.Password,
                     Email = u.Email,
+                    Address = u.Address,
+                    MinSal = u.MinSal,
                     Files = u.Files.Select(f => new Files
                     {
                         Id = f.Id,
