@@ -24,7 +24,7 @@ namespace SpeedApply.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<UsersDto>> GetUser(int id)
         {
-            var user = await _userService.GetUserByIdAsync(id);
+            var user = await _userService.GetUserByIdWithQueriesFilesAsync(id);
             if (user == null) return NotFound();
             return Ok(user);
         }

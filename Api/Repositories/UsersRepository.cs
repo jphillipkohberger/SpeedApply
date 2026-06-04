@@ -42,6 +42,36 @@ namespace SpeedApply.Api.Repositories
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<Users?> GetUserWithQueriesFilesAsync(int userId)
+        {
+            return await _context.Users
+                .Include(u => u.Queries)
+                .Include(u => u.Files)
+                .Where(u => u.Id == userId)
+                .Select(u => new Users
+                {
+                    Id = u.Id,
+                    UserName = u.UserName,
+                    Password = u.Password,
+                    Email = u.Email,
+                    Address = u.Address,
+                    MinSal = u.MinSal,
+                    Queries = u.Queries.Select(q => new Queries
+                    {
+                        Id = q.Id,
+                        Query = q.Query,
+                        UserId = q.UserId,
+                    }).ToList(),
+                    Files = u.Files.Select(f => new Files
+                    {
+                        Id = f.Id,
+                        Name = f.Name,
+                        UserId = f.UserId,
+                    }).ToList()
+                })
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<Users?> GetUserWithFilesAsync(int userId)
         {
             return await _context.Users
