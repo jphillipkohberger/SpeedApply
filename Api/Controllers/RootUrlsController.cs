@@ -23,5 +23,13 @@ namespace SpeedApply.Api.Controllers
             if (rootUrl == null) return NotFound();
             return Ok(rootUrl);
         }
+
+        // GET api/<RootUrlsController>/RunQuery
+        [HttpGet("RunQuery")]
+        public async Task<ActionResult<RootUrlsDto>> RunQuery([FromQuery] string query)
+        {
+            
+            return Ok(query);
+        }
     }
 }
