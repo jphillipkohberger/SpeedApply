@@ -82,7 +82,7 @@ namespace SpeedApply.Api.Controllers
             /**
              * save address
              */
-            string address = $"{addressDto.Street} {addressDto.City}, {addressDto.State} {addressDto.Zip}";
+            string address = $"{addressDto.Street}, {addressDto.City}, {addressDto.State} {addressDto.Zip}";
             var user = await _userService.SaveUserProfileAsync(addressDto.UserId, address, addressDto.MinSal);
             if (user == null) return NotFound();
 
