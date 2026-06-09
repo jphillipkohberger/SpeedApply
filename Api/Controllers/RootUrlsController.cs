@@ -29,7 +29,7 @@ namespace SpeedApply.Api.Controllers
         public async Task<ActionResult<RootUrlsDto>> RunQuery([FromQuery] string query)
         {
             
-            return Ok(query);
+            return Ok(new { Query = query });
         }
     }
 }
