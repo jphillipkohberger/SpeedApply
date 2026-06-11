@@ -1,5 +1,6 @@
 ﻿using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
+using SpeedApply.Api.Models;
 
 namespace SpeedApply.Api.Services
 {
@@ -10,6 +11,20 @@ namespace SpeedApply.Api.Services
         public RootUrlsService(IRootUrlsRepository repository)
         {
             _repository = repository;
+        }
+
+        public async Task<List<RootUrlsDto>> GetRootUrlsAsync()
+        {
+            List<RootUrls> rootUrls = await _repository.GetRootUrlsAsync();
+
+            List<RootUrlsDto> rootUrlsDto = rootUrls.Select(u => new RootUrlsDto
+            {
+                Id = u.Id,
+                Domain = u.Domain,
+                CreatedAt = u.CreatedAt
+            }).ToList();
+
+            return rootUrlsDto;
         }
 
         public async Task<RootUrlsDto?> GetRootUrlByIdAsync(int id)

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
+using SpeedApply.Api.Models;
 
 namespace SpeedApply.Api.Controllers
 {
@@ -28,8 +29,9 @@ namespace SpeedApply.Api.Controllers
         [HttpGet("RunQuery")]
         public async Task<ActionResult<RootUrlsDto>> RunQuery([FromQuery] string query)
         {
-            
-            return Ok(new { Query = query });
+            var rootUrls = await _rootUrlsService.GetRootUrlsAsync();
+            if (rootUrls == null) return NotFound();
+            return Ok(rootUrls);
         }
     }
 }

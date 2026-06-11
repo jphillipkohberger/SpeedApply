@@ -14,6 +14,11 @@ namespace SpeedApply.Api.Repositories
             _context = context;
         }
 
+        public async Task<List<RootUrls>> GetRootUrlsAsync()
+        {
+            return await _context.RootUrls.ToListAsync();
+        }
+
         public async Task<RootUrls?> GetByIdAsync(int id)
         {
             return await _context.RootUrls.FindAsync(id);
