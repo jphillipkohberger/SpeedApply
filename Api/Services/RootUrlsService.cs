@@ -21,6 +21,7 @@ namespace SpeedApply.Api.Services
             {
                 Id = u.Id,
                 Domain = u.Domain,
+                SearchPath = u.SearchPath,
                 CreatedAt = u.CreatedAt
             }).ToList();
 
@@ -33,8 +34,9 @@ namespace SpeedApply.Api.Services
             if (rootUrl == null) return null;
             
             return new RootUrlsDto { 
-                Id = rootUrl.Id, 
-                Domain = rootUrl.Domain, 
+                Id = rootUrl.Id,
+                Domain = rootUrl.Domain,
+                SearchPath = rootUrl.SearchPath,
                 CreatedAt = rootUrl.CreatedAt
             };
         }
