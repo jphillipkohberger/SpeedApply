@@ -20,7 +20,38 @@ CREATE TABLE "Queries" (
 CREATE TABLE "RootUrls" (
     "Id" SERIAL PRIMARY KEY,
     "Domain" VARCHAR(100) UNIQUE NOT NULL,
+    "SearchPath" TEXT,
     "CreatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO "RootUrls" (
+    "Id",
+    "Domain",
+    "SearchPath"
+) VALUES (
+    1,
+    'indeed.com',
+    '/jobs?q=SAS&latLong=SAS&locString=SAS&radius=SAS&from=SAS&vjk=SAS'
+);
+
+INSERT INTO "RootUrls" (
+    "Id",
+    "Domain",
+    "SearchPath"
+) VALUES (
+    2,
+    'linkedin.com',
+    '/search/results/all/?keywords=SAS&origin=SAS'
+);
+
+INSERT INTO "RootUrls" (
+    "Id",
+    "Domain",
+    "SearchPath"
+) VALUES (
+    3,
+    'ziprecruiter.com',
+    '/jobs-search?search=SAS&location=SAS&lk=SAS'
 );
 
  CREATE TABLE "Files" (
