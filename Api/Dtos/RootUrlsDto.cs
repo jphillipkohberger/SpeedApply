@@ -6,5 +6,6 @@
         required public string Domain { get; set; }
         required public string SearchPath { get; set; }
         public DateTime CreatedAt { get; set; }
+        public string SearchPathExtrapolated { get; set; }
     }
 }

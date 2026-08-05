@@ -29,7 +29,7 @@ namespace SpeedApply.Api.Controllers
         [HttpGet("RunQuery")]
         public async Task<ActionResult<RootUrlsDto>> RunQuery([FromQuery] string query)
         {
-            var rootUrls = await _rootUrlsService.GetRootUrlsAsync();
+            var rootUrls = await _rootUrlsService.GetRootUrlsAsync(query);
             if (rootUrls == null) return NotFound();
             return Ok(rootUrls);
         }

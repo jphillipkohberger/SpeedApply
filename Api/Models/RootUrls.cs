@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SpeedApply.Api.Models
 {
@@ -10,5 +11,8 @@ namespace SpeedApply.Api.Models
         required public string Domain { get; set; }
         required public string SearchPath { get; set; }
         public DateTime CreatedAt { get; set; }
+
+        [NotMapped]
+        public string SearchPathExtrapolated { get; set; }
     }
 }

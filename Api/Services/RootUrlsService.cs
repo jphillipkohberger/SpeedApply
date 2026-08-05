@@ -13,7 +13,7 @@ namespace SpeedApply.Api.Services
             _repository = repository;
         }
 
-        public async Task<List<RootUrlsDto>> GetRootUrlsAsync()
+        public async Task<List<RootUrlsDto>> GetRootUrlsAsync(string query)
         {
             List<RootUrls> rootUrls = await _repository.GetRootUrlsAsync();
 
@@ -22,7 +22,8 @@ namespace SpeedApply.Api.Services
                 Id = u.Id,
                 Domain = u.Domain,
                 SearchPath = u.SearchPath,
-                CreatedAt = u.CreatedAt
+                CreatedAt = u.CreatedAt,
+                SearchPathExtrapolated = u.SearchPath
             }).ToList();
 
             return rootUrlsDto;
