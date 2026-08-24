@@ -1,8 +1,0 @@
-@SpeedApply_HostAddress = http://localhost:32770
-
-###
-
-GET {{SpeedApply_HostAddress}}/Api/RootUsers/1
-Accept: application/json
-
-###
