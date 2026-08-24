@@ -3,7 +3,7 @@
     "SpeedApply": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:32768",
+      "applicationUrl": "https://localhost:32770",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "http://localhost:32768"
+      "applicationUrl": "http://localhost:32770"
     },
     "Container (Dockerfile)": {
       "commandName": "Docker",

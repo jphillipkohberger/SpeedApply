@@ -3,3 +3,5 @@ obj/
 .vs/
 publish/
 build/
+./Properties/launchSettings.json
+./SpeedApply.http
