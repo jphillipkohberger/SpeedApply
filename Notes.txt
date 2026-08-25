@@ -22,3 +22,98 @@ NEXT Add Backend Controller save resume from profile
 5/28/26
 NEXT Add DB table for files foreign keyed back to Users for storing files, should be generic for storing different named files one to many. Users -> Files mainly for resumes but must be generic for storing other documents.
 After adding database tables, Entity models will be created and ultimately apii endpoint to save file(s)
+
+
+
+8/24/26
+ADD new docker file:
+    Key Optimizations MadeCleaned Up Dead Code: Removed all of the commented-out ENTRYPOINT, COPY, 
+    and file removal (rm -rf) trials from the bottom of your file.Separated Installation Steps: Split the browser setup. 
+    The heavy operating system dependencies (install-deps) run early in the base stage. The .NET browser binary installer 
+    (playwright.ps1 install) executes inside the final stage once your compiled application code is copied over.Preserved 
+    System Utilities: Maintained your active configurations for nano, procps, wget, and inotify-tools.
+
+# See https://aka.ms/customizecontainer to learn how to customize your debug container 
+# and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+# These ARGs allow for swapping out the base used to make the final image when debugging from VS
+ARG LAUNCHING_FROM_VS
+ARG FINAL_BASE_IMAGE=${LAUNCHING_FROM_VS:+aotdebug}
+
+# =========================================================
+# 1. Base Runtime Stage (Visual Studio Fast Mode uses this)
+# =========================================================
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+# Switch to root to install system tools, PowerShell, and browser dependencies
+USER root
+
+# Install tools, configure Microsoft production repo, and install PowerShell
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    wget \
+    nano \
+    inotify-tools \
+    procps \
+    apt-transport-https \
+    software-properties-common \
+    && wget -q https://microsoft.com \
+    && dpkg -i packages-microsoft-prod.deb \
+    && apt-get update \
+    && apt-get install -y powershell \
+    && rm -rf /var/lib/apt/lists/*
+
+# Pre-install Playwright OS dependencies to save time during build steps
+# This installs all system packages needed by Chromium, Firefox, and WebKit
+RUN apt-get update && apt-get install -y curl \
+    && curl -fsSL https://nodesource.com | bash - \
+    && apt-get install -y nodejs \
+    && npx playwright install-deps \
+    && rm -rf /var/lib/apt/lists/*
+
+# Revert to the standard non-root user for default security
+USER $APP_UID
+
+# =========================================================
+# 2. Build Stage
+# =========================================================
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    clang zlib1g-dev
+
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /src
+COPY ["SpeedApply.csproj", "."]
+RUN dotnet restore "./SpeedApply.csproj"
+COPY . .
+WORKDIR "/src/."
+RUN dotnet build "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# =========================================================
+# 3. Publish Stage
+# =========================================================
+FROM build AS publish
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
+
+# =========================================================
+# 4. Final Stage (Production Execution)
+# =========================================================
+FROM base AS final
+WORKDIR /app
+
+# Switch to root to assemble application files and download final browser binaries
+USER root
+COPY --from=publish /app/publish .
+
+# Run the .NET Playwright PowerShell script to download headless browsers
+# Since dependencies were installed in step 1, this step downloads browser files
+RUN pwsh playwright.ps1 install
+
+# Secure the container runtime environment before execution
+USER $APP_UID
+
+# Run application binary natively
+CMD ["/bin/sh", "-c", "/app/SpeedApply"]

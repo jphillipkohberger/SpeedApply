@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Playwright;
 using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
 using SpeedApply.Api.Models;
@@ -31,6 +32,25 @@ namespace SpeedApply.Api.Controllers
         {
             var rootUrls = await _rootUrlsService.GetRootUrlsAsync(query);
             if (rootUrls == null) return NotFound();
+
+
+            // Initialize Playwright
+            using var playwright = await Playwright.CreateAsync();
+
+            // Launch a Chromium browser (headless: false lets you see it work)
+            //await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            //{
+            //    Headless = true
+            //});
+
+            //// Create a new browser page/tab
+            //var page = await browser.NewPageAsync();
+
+            // Go to the target website
+            //await page.GotoAsync("https://example.com");
+
+
+
             return Ok(rootUrls);
         }
     }
