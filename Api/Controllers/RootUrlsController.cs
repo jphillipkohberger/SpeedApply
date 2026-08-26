@@ -38,10 +38,10 @@ namespace SpeedApply.Api.Controllers
             using var playwright = await Playwright.CreateAsync();
 
             // Launch a Chromium browser (headless: false lets you see it work)
-            //await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            //{
-            //    Headless = true
-            //});
+            await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            {
+                Headless = true
+            });
 
             //// Create a new browser page/tab
             //var page = await browser.NewPageAsync();

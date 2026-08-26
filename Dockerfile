@@ -1,17 +1,43 @@
-# See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 # These ARGs allow for swapping out the base used to make the final image when debugging from VS
 ARG LAUNCHING_FROM_VS
 # This sets the base image for final, but only if LAUNCHING_FROM_VS has been defined
 ARG FINAL_BASE_IMAGE=${LAUNCHING_FROM_VS:+aotdebug}
 
+# =========================================================
+# 1. Base Runtime Stage (Visual Studio Fast Mode uses this)
+# =========================================================
 # This stage is used when running from VS in fast mode (Default for Debug configuration)
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
+USER root
+
+# Install tools, configure Microsoft production repo, and install PowerShell
+RUN apt-get update && apt-get install -y --no-install-recommends wget curl libunwind8 nano inotify-tools procps -y && \
+    apt-get install -y wget ca-certificates && \
+    wget -q https://packages.microsoft.com/config/ubuntu/22.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb && \
+    dpkg -i packages-microsoft-prod.deb && \
+    apt-get update && apt-get install -y powershell && \
+    rm -rf /var/lib/apt/lists/*
+
+#install node npm nvm etc
+COPY --from=node:20 /usr/local/bin/node /usr/local/bin/
+COPY --from=node:20 /usr/local/lib/node_modules /usr/local/lib/node_modules
+
+# Re-link npm and npx so they work globally
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+    && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx \
+    && npx playwright install-deps
+
+# Revert to the standard non-root user for default security
+USER $APP_UID
 
 
+# =========================================================
+# 2. Build Stage
+# =========================================================
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 # Install clang/zlib1g-dev dependencies for publishing to native
@@ -26,41 +52,30 @@ COPY . .
 WORKDIR "/src/."
 RUN dotnet build "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
+
+# =========================================================
+# 3. Publish Stage
+# =========================================================
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=true
-#RUN dotnet publish "./SpeedApply.csproj" -c $BUILD_CONFIGURATION -o /app/publish
 
-# This stage is used as the base for the final stage when launching from VS to support debugging in regular mode (Default when not using the Debug configuration)
-#FROM base AS aotdebug
-#USER root
-# Install GDB to support native debugging
-#RUN apt-get update \
-#    && apt-get install -y --no-install-recommends \
-#    gdb
-#USER app
 
-# This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
-#FROM ${FINAL_BASE_IMAGE:-mcr.microsoft.com/dotnet/runtime-deps:8.0} AS final
+# =========================================================
+# 4. Final Stage (Production Execution)
+# =========================================================
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
-#FROM mcr.microsoft.com/dotnet/sdk:8.0 AS final
 WORKDIR /app
-RUN apt-get update && apt-get install wget nano inotify-tools procps -y
 EXPOSE 8080
+USER root
 COPY --from=publish /app/publish .
-#RUN rm -rf bin/ && rm -rf obj/ && rm -rf .vs/ && rm -rf publish/ && rm -rf build/
-#COPY . /app/
-#COPY ["SpeedApply.csproj", "."]
-#RUN dotnet restore "./SpeedApply.csproj"
-#COPY . .
-#ENTRYPOINT ["sleep","infinity"]
-#ENTRYPOINT ["/bin/sh", "-c", "/app/SpeedApply"]
+
+# Run the .NET Playwright PowerShell script to download headless browsers
+# Since dependencies were installed in step 1, this step downloads browser files
+RUN pwsh playwright.ps1 install
+
+# Secure the container runtime environment before execution
+USER $APP_UID
+
 CMD ["/bin/sh", "-c", "/app/SpeedApply"]
-#ENTRYPOINT ["/bin/sh", "-c", "/app/tools/build.sh && /app/tools/run.sh"]
-#ENTRYPOINT ["./SpeedApply"]
-#COPY ["SpeedApply.csproj", "/app"]
-#ENV PATH="${PATH}:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/share/dotnet"
-#ENTRYPOINT ["/bin/sh", "-c", "/usr/bin/dotnet watch run ./SpeedApply"]
-#ENTRYPOINT ["/bin/sh", "-c", "/usr/bin/dotnet watch run SpeedApply.dll"]
-#ENTRYPOINT dotnot watch run SpeedApply.dll
