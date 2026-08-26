@@ -73,9 +73,11 @@ COPY --from=publish /app/publish .
 
 # Run the .NET Playwright PowerShell script to download headless browsers
 # Since dependencies were installed in step 1, this step downloads browser files
-RUN pwsh playwright.ps1 install
+#RUN /app/bin/Debug/net8.0/playwright.ps1 install
 
+CMD ["/app/bin/Debug/net8.0/playwright.ps1", "install"]
 # Secure the container runtime environment before execution
 USER $APP_UID
 
 CMD ["/bin/sh", "-c", "/app/SpeedApply"]
+ENTRYPOINT ["/app/bin/Debug/net8.0/playwright.ps1", "install"]
