@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Playwright;
 using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
@@ -37,19 +38,31 @@ namespace SpeedApply.Api.Controllers
             // Initialize Playwright
             using var playwright = await Playwright.CreateAsync();
 
-            // Launch a Chromium browser (headless: false lets you see it work)
-            await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
-            {
-                Headless = true
-            });
+            try { 
 
-            //// Create a new browser page/tab
-            //var page = await browser.NewPageAsync();
+                foreach (RootUrlsDto rootUrl in rootUrls)
+                {
+                    // Launch a Chromium browser (headless: false lets you see it work)
+                    await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                    {
+                        Headless = true
+                    });
 
-            // Go to the target website
-            //await page.GotoAsync("https://example.com");
+                    //// Create a new browser page/tab
+                    var page = await browser.NewPageAsync();
 
+                    // Go to the target website
+                    await page.GotoAsync("http://" + rootUrl.Domain);
 
+                    // Retrieve the entire HTML source of the page
+                    string html = await page.ContentAsync();
+                }
+
+            }
+            catch (Exception e) 
+            { 
+                Console.WriteLine(e.ToString());
+            }
 
             return Ok(rootUrls);
         }
