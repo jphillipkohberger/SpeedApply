@@ -31,28 +31,29 @@ namespace SpeedApply.Api.Controllers
         [HttpGet("RunQuery")]
         public async Task<ActionResult<RootUrlsDto>> RunQuery([FromQuery] string query)
         {
+            // Gather rooturls to start querying, linked in etc.
             var rootUrls = await _rootUrlsService.GetRootUrlsAsync(query);
             if (rootUrls == null) return NotFound();
 
 
-            // Initialize Playwright
-            using var playwright = await Playwright.CreateAsync();
-
-            try { 
-
-                foreach (RootUrlsDto rootUrl in rootUrls)
-                {
-                    // Launch a Chromium browser (headless: false lets you see it work)
-                    await using var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            try {
+                // Initialize Playwright
+                using var playwright = await Playwright.CreateAsync();
+                await using var browser = await playwright.Chromium.LaunchAsync(
+                    new BrowserTypeLaunchOptions
                     {
                         Headless = true
                     });
+                var page = await browser.NewPageAsync();
 
-                    //// Create a new browser page/tab
-                    var page = await browser.NewPageAsync();
+                // iterate through rootUrls
+                foreach (RootUrlsDto rootUrl in rootUrls)
+                {
+                    //build url
+                    string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;
 
                     // Go to the target website
-                    await page.GotoAsync("http://" + rootUrl.Domain);
+                    await page.GotoAsync(url);
 
                     // Retrieve the entire HTML source of the page
                     string html = await page.ContentAsync();
