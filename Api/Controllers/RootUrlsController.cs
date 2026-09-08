@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Playwright;
 using SpeedApply.Api.Dtos;
 using SpeedApply.Api.Interfaces;
-using SpeedApply.Api.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace SpeedApply.Api.Controllers
 {
@@ -37,16 +37,43 @@ namespace SpeedApply.Api.Controllers
 
 
             try {
-                // Initialize Playwright
-                using var playwright = await Playwright.CreateAsync();
-                await using var browser = await playwright.Chromium.LaunchAsync(
-                    new BrowserTypeLaunchOptions
-                    {
-                        Headless = true
-                    });
-                var page = await browser.NewPageAsync();
 
-                // iterate through rootUrls
+                // 1. Initialize Playwright
+                using var playwright = await Playwright.CreateAsync();
+
+                // 2. Set Proxy
+                var proxyOptions = new Proxy
+                {
+                    Server = "http://speed_apply_proxy:5566",
+                    Username = "root",
+                    Password = "password"
+                };
+
+                // 3. Launch Browser with custom arguments to reduce automation footprint
+                var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+                {
+                    Headless = true,
+                    Proxy = proxyOptions,
+                    Args = new[] {
+                        "--disable-blink-features=AutomationControlled", // Helps hide the webdriver footprint
+                        "--disable-infobars",
+                        "--no-sandbox"
+                    }
+                });
+
+                // 4. Create a specialized Context rather than a default page
+                // This allows us to inject specific User-Agents and window dimensions
+                var context = await browser.NewContextAsync(new BrowserNewContextOptions
+                {
+                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    ViewportSize = new ViewportSize { Width = 1920, Height = 1080 },
+                    Locale = "en-US",
+                    TimezoneId = "America/New_York"
+                });
+
+                var page = await context.NewPageAsync();
+
+                // 5. iterate through rootUrls
                 foreach (RootUrlsDto rootUrl in rootUrls)
                 {
                     //build url
@@ -57,6 +84,8 @@ namespace SpeedApply.Api.Controllers
 
                     // Retrieve the entire HTML source of the page
                     string html = await page.ContentAsync();
+
+                    Console.WriteLine(html);
                 }
 
             }
