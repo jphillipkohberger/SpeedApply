@@ -42,11 +42,10 @@ namespace SpeedApply.Api.Controllers
                 using var playwright = await Playwright.CreateAsync();
 
                 // 2. Set Proxy
+                // Make sure proxy server, app server and db server are all on same network speed_network
                 var proxyOptions = new Proxy
                 {
-                    Server = "http://speed_apply_proxy:5566",
-                    Username = "root",
-                    Password = "password"
+                    Server = "socks5://speed_apply_haproxy:9050"
                 };
 
                 // 3. Launch Browser with custom arguments to reduce automation footprint
@@ -87,6 +86,10 @@ namespace SpeedApply.Api.Controllers
 
                     Console.WriteLine(html);
                 }
+
+                await browser.CloseAsync();
+                await page.CloseAsync();
+                await context.CloseAsync();
 
             }
             catch (Exception e) 
