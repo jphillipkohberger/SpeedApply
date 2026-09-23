@@ -5,3 +5,4 @@ publish/
 build/
 Properties/launchSettings.json
 SpeedApply.http
+output.txt

@@ -85,6 +85,17 @@ namespace SpeedApply.Api.Controllers
                     string html = await page.ContentAsync();
 
                     Console.WriteLine(html);
+
+                    if (rootUrl.Domain == "lensa.com")
+                    {
+                        string filePath = "output.txt";
+
+                        using (StreamWriter writer = new StreamWriter(filePath))
+                        {
+                            writer.WriteLine(html);
+                        } // The file is automatically closed and saved here
+                    }
+
                 }
 
                 await browser.CloseAsync();
