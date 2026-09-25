@@ -52,7 +52,6 @@ namespace SpeedApply.Api.Controllers
                 var browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
                 {
                     Headless = true,
-                    Proxy = proxyOptions,
                     Args = new[] {
                         "--disable-blink-features=AutomationControlled", // Helps hide the webdriver footprint
                         "--disable-infobars",
@@ -65,9 +64,10 @@ namespace SpeedApply.Api.Controllers
                 var context = await browser.NewContextAsync(new BrowserNewContextOptions
                 {
                     UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-                    ViewportSize = new ViewportSize { Width = 1920, Height = 1080 },
+                    ViewportSize = new ViewportSize { Width = 1365, Height = 768 },
                     Locale = "en-US",
-                    TimezoneId = "America/New_York"
+                    TimezoneId = "America/New_York",
+                    Proxy = proxyOptions
                 });
 
                 var page = await context.NewPageAsync();
@@ -75,19 +75,17 @@ namespace SpeedApply.Api.Controllers
                 // 5. iterate through rootUrls
                 foreach (RootUrlsDto rootUrl in rootUrls)
                 {
-                    //build url
-                    string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;
-
-                    // Go to the target website
-                    await page.GotoAsync(url);
-
-                    // Retrieve the entire HTML source of the page
-                    string html = await page.ContentAsync();
-
-                    Console.WriteLine(html);
-
                     if (rootUrl.Domain == "lensa.com")
                     {
+                        //build url
+                        string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;
+
+                        // Go to the target website
+                        await page.GotoAsync(url);
+
+                        // Retrieve the entire HTML source of the page
+                        string html = await page.ContentAsync();
+
                         string filePath = "output.txt";
 
                         using (StreamWriter writer = new StreamWriter(filePath))
