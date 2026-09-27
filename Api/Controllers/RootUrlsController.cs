@@ -75,7 +75,7 @@ namespace SpeedApply.Api.Controllers
                 // 5. iterate through rootUrls
                 foreach (RootUrlsDto rootUrl in rootUrls)
                 {
-                    if (rootUrl.Domain == "lensa.com")
+                    if (rootUrl.Domain == "lensa.com" || rootUrl.Domain == "www.snagajob.com")
                     {
                         //build url
                         string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;
@@ -91,7 +91,7 @@ namespace SpeedApply.Api.Controllers
                         using (StreamWriter writer = new StreamWriter(filePath))
                         {
                             writer.WriteLine(html);
-                        } // The file is automatically closed and saved here
+                        }
                     }
 
                 }
