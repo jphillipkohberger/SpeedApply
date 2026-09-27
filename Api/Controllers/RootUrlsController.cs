@@ -63,7 +63,7 @@ namespace SpeedApply.Api.Controllers
                 // This allows us to inject specific User-Agents and window dimensions
                 var context = await browser.NewContextAsync(new BrowserNewContextOptions
                 {
-                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+                    UserAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
                     ViewportSize = new ViewportSize { Width = 1365, Height = 768 },
                     Locale = "en-US",
                     TimezoneId = "America/New_York",
@@ -76,7 +76,7 @@ namespace SpeedApply.Api.Controllers
                 foreach (RootUrlsDto rootUrl in rootUrls)
                 {
                     try { 
-                        if (rootUrl.Domain == "lensa.com" || rootUrl.Domain == "www.snagajob.com")
+                        if (rootUrl.Domain == "lensa.com" || rootUrl.Domain == "www.snagajob.com" || true)
                         {
                             //build url
                             string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;

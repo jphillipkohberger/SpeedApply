@@ -117,3 +117,48 @@ USER $APP_UID
 
 # Run application binary natively
 CMD ["/bin/sh", "-c", "/app/SpeedApply"]
+
+
+9/27/2026
+
+PROXY SERVER
+docker run -d --name speed_apply_haproxy -p 9050:9050 -p 4444:4444 --env tors=3 shaddysignal/tor-rotating-proxy:latest /bin/sh -c "
+sed -i 's/kill -9/true/g' /usr/local/bin/start.rb && \
+    sed -i 's/| logger 2>&1//g' /usr/local/bin/start.rb && \
+    cat << 'EOF' > /usr/local/etc/haproxy.cfg.erb
+global
+    log stdout format raw local0
+
+defaults
+    log global
+    mode tcp
+    timeout connect 10s
+    timeout client 30s
+    timeout server 30s
+
+listen stats
+    bind 0.0.0.0:4444
+    mode http
+    stats enable
+    stats uri /haproxy?stats
+    stats refresh 5s
+
+frontend entry-point
+    bind 0.0.0.0:9050
+    mode tcp
+    option tcplog
+    default_backend tor
+
+backend tor
+    mode tcp
+    balance roundrobin
+    <% (0...ENV['tors'].to_i).each do |i| %>
+    server tor<%= i %> 127.0.0.1:<%= 10000 + i %> check inter 5s
+    <% end %>
+EOF
+    /usr/local/bin/start.rb
+  
+"
+
+PROXY TEST
+for i in {1..3}; do curl --socks5-hostname localhost:9050 https://icanhazip.com; echo ""; done
