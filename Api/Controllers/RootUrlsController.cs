@@ -75,30 +75,39 @@ namespace SpeedApply.Api.Controllers
                 // 5. iterate through rootUrls
                 foreach (RootUrlsDto rootUrl in rootUrls)
                 {
-                    if (rootUrl.Domain == "lensa.com" || rootUrl.Domain == "www.snagajob.com")
-                    {
-                        //build url
-                        string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;
-
-                        // Go to the target website
-                        await page.GotoAsync(url);
-
-                        // Retrieve the entire HTML source of the page
-                        string html = await page.ContentAsync();
-
-                        string filePath = "output.txt";
-
-                        using (StreamWriter writer = new StreamWriter(filePath))
+                    try { 
+                        if (rootUrl.Domain == "lensa.com" || rootUrl.Domain == "www.snagajob.com")
                         {
-                            writer.WriteLine(html);
+                            //build url
+                            string url = "https://" + rootUrl.Domain + rootUrl.SearchPath + query;
+
+                            // Go to the target website
+                            await page.GotoAsync(url, new PageGotoOptions
+                            {
+                                WaitUntil = WaitUntilState.DOMContentLoaded,
+                                Timeout = 30_000
+                            });
+
+                            // Retrieve the entire HTML source of the page
+                            string html = await page.ContentAsync();
+
+                            var filename = $"{rootUrl.Domain.Replace(".", "_")}.html";
+
+                            var filePath = Path.Combine("Output", filename);
+
+                            await System.IO.File.WriteAllTextAsync(
+                                filePath,
+                                html);
                         }
                     }
-
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.ToString());
+                    }
                 }
 
-                await browser.CloseAsync();
-                await page.CloseAsync();
                 await context.CloseAsync();
+                await browser.CloseAsync();
 
             }
             catch (Exception e) 
